@@ -13,6 +13,27 @@
   }
 }
 
+body{
+  background-color: cornflowerblue;
+}
+.switch-btn{
+  color: cornflowerblue;
+}
+
+
+h2{
+  color: gray;
+}
+
+
+.currency-input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -35,4 +56,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.large-input{
+  width: 270px;
 }
