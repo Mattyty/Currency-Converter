@@ -1,7 +1,7 @@
 import React from 'react';
-import Select from 'react-dropdown-select';
 
-const DropDownComponent = ({label, value, options, onChange}) => {
+// props passed through from HomeComponent
+const DropDownComponent = ({value, options, onChange}) => {
 
         return(
             <div>

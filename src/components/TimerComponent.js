@@ -4,11 +4,11 @@ import {timeout, convertedAmount} from "../store/actions";
 
 const Timer =({amount, newAmount, from, to})=>{
     const dispatch = useDispatch();
-    const [timeLeft, setTimeLeft] = useState(3);
+    const [timeLeft, setTimeLeft] = useState(10);
     const timeOut = useSelector((state) => state.TimeOutReducer.timeOut);
 
+    //sends flag to HomeComponent to stop counter when countdown passes 0
     useEffect(() => {
-        // exit early when we reach 0
         if (timeLeft === -1){
             dispatch(timeout(false));
             dispatch(convertedAmount(0.00));
@@ -22,12 +22,12 @@ const Timer =({amount, newAmount, from, to})=>{
 
 
         return () => clearInterval(intervalId);
-    }, [timeLeft, timeOut]);
+    }, [timeLeft, timeOut, dispatch]);
 
     return (
         <div className="mt-4">
-            <p>{'This rate expires in ' + timeLeft + ' ' + 'seconds'}</p>
-            <p>{amount + ' ' + from + ' is equivalent to '}</p><h6>{newAmount}</h6><p>{ ' ' + to}</p>
+            <p style={{color: "red"}}>{'This rate expires in ' + timeLeft + ' ' + 'seconds'}</p>
+            <p>{amount + ' ' + from + ' is equivalent to '}</p><h5>{newAmount}</h5><p>{ ' ' + to}</p>
         </div>
     );
 }

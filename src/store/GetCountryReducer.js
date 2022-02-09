@@ -3,7 +3,6 @@ const initialState = {
 };
 
 export default function countryReducer(state = initialState, action) {
-    console.log("ACTION", action)
     if (action.type === 'SET_LIST') {
         return {
             ...state,

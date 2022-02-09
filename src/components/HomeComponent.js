@@ -4,7 +4,7 @@ import {fetchCountries} from '../store/GetCountryAPIAction';
 import {data} from "./data";
 import {Button, Container, CardBody, CardTitle, Card, Row, Col} from 'reactstrap';
 import Timer from "./TimerComponent";
-import {convertedAmount, timeout} from "../store/actions";
+import {timeout} from "../store/actions";
 import DropDownComponent from "./DropDownComponent";
 import { HiSwitchHorizontal } from 'react-icons/hi';
 import {toast, ToastContainer} from 'react-toastify';
@@ -14,7 +14,6 @@ const Home = () => {
     const dispatch = useDispatch();
     const country = useSelector((state) => state.GetCountryReducer.countries);
     const timeOut = useSelector((state) => state.TimeOutReducer.timeOut);
-    /*    const totalSum = useSelector((state) => state.TotalReducer.newSum);*/
     const [amount, setAmount] = useState(0.00);
     const [newAmount, setNewAmount] = useState('');
     const [from, setFrom] = useState('');
@@ -25,15 +24,13 @@ const Home = () => {
     const [options, setOptions] = useState([]);
     const ratesList = [];
 
-        console.log("FROMMMMMMMMMM", from)
-        console.log("TOOOOOOOOOOOOO", to)
-        console.log("FROOOOOOOOMMMMMRate", fromRate)
-        console.log("TOOOOOOOOOOOOORate", toRate)
-
+    //calls dropdown api on page load via redux
     useEffect(() => {
         dispatch(fetchCountries())
     }, []);
 
+        //receives flag though redux that timer has finished. Resets converted amount to zero and hides
+        // message at the bottom
     useEffect(() => {
         if (timeOut === false) {
             setNewAmount(0)
@@ -48,28 +45,20 @@ const Home = () => {
     }, [country, to, from, fromRate, toRate, timeOut, setAmount]);
 
 
-    // Function to convert the currency
+    // Function to extract the conversion rates for each currency
     function applyRate() {
         const entries = Object.entries(data);      // Here I am converting the 'Rates' data into an array.
         entries.forEach(function (element, key) {   // This could have been done when hard coding the data into the separate data.js sheet,
             ratesList.push(element);              // but I wanted to keep the test as close to reality as possible.
         });
         ratesList.map((key) => {
-            const currencyString = JSON.stringify(key);                                      // Map of currency list
+            const currencyString = JSON.stringify(key);
             const countryStringFrom = JSON.stringify(from);
-            const countryStringTo = JSON.stringify(to);                                     //2nd input box
-            const currencyCode = currencyString.substring(2, 5);                           //currency list's country codes
+            const countryStringTo = JSON.stringify(to);
+            const currencyCode = currencyString.substring(2, 5);
             const currencyRate = currencyString.substring(7, currencyString.length - 1);
-            /*            console.log("CURRENCYRATE", currencyRate);*/
-            const countryCodeFrom = countryStringFrom.substring(1, 4);                       //1st input country code
-            const countryCodeTo = countryStringTo.substring(1, 4);                          //currency lists' rates
-            /*console.log("currencyString", currencyString);
-            console.log("countryStringFrom", countryStringFrom);
-            console.log("countryStringTo", countryStringTo);
-            console.log("currencyCode", currencyCode);
-            console.log("currencyRate", currencyRate);
-            console.log("countryCodeFrom", countryCodeFrom);
-            console.log("countryCodeTo", countryCodeTo);*/
+            const countryCodeFrom = countryStringFrom.substring(1, 4);
+            const countryCodeTo = countryStringTo.substring(1, 4);
             if (countryCodeFrom === currencyCode) {
                 setFromRate(currencyRate)
             }
@@ -78,28 +67,25 @@ const Home = () => {
                 setToCode(countryCodeTo);
             }
         });
+        return null
     }
 
-
+    // function to sum the conversion rates
     function convert() {
         if ((fromRate !== '') && (toRate !== '')) {
             const rate1Int = parseFloat(fromRate);
             const rate2Int = parseFloat(toRate);
             const inputAmountInt = parseFloat(amount);
-            const inputAmount = rate1Int * inputAmountInt;
+            const inputAmount = inputAmountInt / rate1Int;
             const totalSum = inputAmount * rate2Int;
-            console.log("rate1Int", rate1Int);
-            console.log("rate2Int", rate2Int);
-            console.log("totalSum", totalSum);
-            console.log("inputAmountInt", inputAmountInt);
-            /*            console.log("inputAmount", inputAmount);*/
-            /*            console.log("startingRate", startingRate);*/
             setNewAmount(totalSum);
             beginTimer();
+        } else{
+            toast.error("Whoops! Please Choose Two Currencies");
         }
     }
 
-    // Function to switch between two currency
+    // Function to switch between two currencies and rates
     function flip() {
         let temp = from;
         let tempRate = fromRate;
@@ -109,31 +95,28 @@ const Home = () => {
         setToRate(tempRate)
     }
 
+    //function to start timer via Redux
     function beginTimer() {
         dispatch(timeout(true))
     }
 
-
+    //function to check if input is a number
     function isNumber() {
-
         if (isNaN(amount)) {
-            console.log("HELP", amount)
             toast.error("Whoops! Please enter a valid amount: " + amount);
             setAmount(0)
         } else {
-            console.log("HELP2", amount)
             convert();
         }
     }
 
-
+    // sets the 'from' currency
     const handleFromChange = (event) => {
-        console.log("EVERNTTTTTTTTTTT", event)
         setFrom(event.target.value);
     };
 
+    //sets the 'To' currency
     const handleToChange = (event) => {
-        console.log("EVERNTTTTTTTTTTT2222222222222222222", event)
         setTo(event.target.value);
     };
 
@@ -160,45 +143,38 @@ const Home = () => {
                                 }}>
                                 <h2>Currency Converter:</h2>
                             </CardTitle>
+                            <p>Total:</p>
                             <CardTitle
                                 style={{
                                     fontWeight: 'bold',
                                     fontSize: '1.5em',
                                 }}>
-
-                                {/*<p>{totalSum + ' ' + currencyCodeTwo}</p>*/}
                                 <h1 className="mt-3 mb-3">{newAmount + ' ' + toCode}</h1>
 
                             </CardTitle>
+
+{/*                            ///stylingsfor large screen below*/}
+                            <div className="d-none d-lg-block">
                             <Row>
-                                <Col xs={4}>
+                                <Col xs={3}>
                                     Amount:
                                 </Col>
-                                <Col xs={3} className="pb-3">
+                                <Col xs={4} className="pb-3">
                                     From:
                                 </Col>
                                 <Col xs={1}></Col>
-                                <Col xs={3}>
+                                <Col xs={4}>
                                     To:
                                 </Col>
 
                             </Row>
                             <Row>
-                                <Col xs={4}>
-                                    {/*                                <input
-                                        id='amount'
-                                        autoFocus='autofocus'
-                                        className='inputBox'
-                                        value={inputAmount}
-                                        onChange={(e) => setInputAmount(e.target.value)}
-                                        placeholder=' Enter Amount:'
-                                        type="number"
-                                    />*/}
+                                <Col xs={3}>
                                     <input type="text"
                                            placeholder="Enter your amount..."
                                            onChange={(e) => setAmount(e.target.value)} className="currency-input" autoFocus />
                                 </Col>
-                                <Col xs={3}>
+                                <Col xs={4}>
                                     <DropDownComponent
                                         options={options}
                                         onChange={handleFromChange}
@@ -208,14 +184,43 @@ const Home = () => {
                                     <HiSwitchHorizontal size="30px" onClick={() => {
                                         flip()}} className="switch-btn"/>
                                 </Col>
-                                <Col xs={3}>
+                                <Col xs={4}>
                                     <DropDownComponent
                                         options={options}
                                         onChange={handleToChange}
                                         value={to} placeholder="To"/>
                                 </Col>
                             </Row>
-
+                            </div>
+                           {/* /////Style for mobile below*/}
+                            <div className="d-block d-lg-none" >
+                                <Row className="mt-5">
+                                    <label>Amount:</label>
+                                </Row>
+                                <Row className="offset-1 mt-3">
+                                    <input type="text"
+                                           placeholder="Enter your amount..."
+                                           onChange={(e) => setAmount(e.target.value)} className="currency-input mobile" autoFocus/>
+                                </Row>
+                                <Row className="mt-3">
+                                    <label> From:</label>
+                                    <DropDownComponent
+                                        options={options}
+                                        onChange={handleFromChange}
+                                        value={from} placeholder="From"/>
+                                </Row>
+                                <Row>
+                                    <HiSwitchHorizontal size="30px" onClick={() => {
+                                        flip()}} className="switch-btn mt-3"/>
+                                </Row>
+                                <Row className="mt-3">
+                                    <label>To:</label>
+                                    <DropDownComponent
+                                        options={options}
+                                        onChange={handleToChange}
+                                        value={to} placeholder="To"/>
+                                </Row>
+                            </div>
                             <Button onClick={() => {
                                 isNumber()
                             }} className="mt-5 btn-info">Convert</Button>
@@ -225,47 +230,8 @@ const Home = () => {
                         </CardBody>
                     </Card>
                 </form>
-                <img src="../components/images/coop.png" alt="logo"/>
             </Container>
-            {/*            <div className="heading">
-                <h1>Currency converter</h1>
-            </div>
-            <div className="container">
-                <div className="result">
-                    <h2>Converted Amount:</h2>
-                                    <p>{amount+" "+from+" = "+output.toFixed(2) + " " + to}</p>
-                    <h1>{amount + ' ' + toCode}</h1>
-
-                </div>
-                <div className="left">
-                    <h3>Amount</h3>
-                    <input type="text"
-                           placeholder="Enter the amount"
-                           onChange={(e) => setAmount(e.target.value)} />
-                </div>
-                <div className="middle">
-                    <h3>From</h3>
-                    <DropDownComponent
-                                       options={options}
-                                       onChange={handleFromChange}
-                                       value={from} placeholder="From"/>
-
-
-                </div>
-                <div className="switch">
-                    <Button size="30px"
-                            onClick={() => { flip()}}>Switch</Button>
-                </div>
-                <div className="right">
-                    <h3>To</h3>
-                    <DropDownComponent
-                              options={options}
-                              onChange={handleToChange}
-                              value={to} placeholder="To"/>
-                </div>
-            </div>
-            <button onClick={()=>{convert()}}>Convert</button>
-            {timeOut ? <Timer/> : ''}*/}
+            <img src="../images/co.png" alt="logo" style={{display: 'flex', alignItems: 'center', height: '50px', width: '50px'}} className="img-logo"/>
         </div>
     );
 }
