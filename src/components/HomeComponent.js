@@ -197,10 +197,10 @@ const Home = () => {
                                 <Row className="mt-5">
                                     <label>Amount:</label>
                                 </Row>
-                                <Row className="offset-1 mt-3">
+                                <Row className="mt-3">
                                     <input type="text"
                                            placeholder="Enter your amount..."
-                                           onChange={(e) => setAmount(e.target.value)} className="currency-input mobile" autoFocus/>
+                                           onChange={(e) => setAmount(e.target.value)} className="currency-input mb-3" autoFocus/>
                                 </Row>
                                 <Row className="mt-3">
                                     <label> From:</label>
@@ -231,7 +231,7 @@ const Home = () => {
                     </Card>
                 </form>
             </Container>
-            <img src="../images/co.png" alt="logo" style={{display: 'flex', alignItems: 'center', height: '50px', width: '50px'}} className="img-logo"/>
+            <img src="../images/co.png" alt="logo" style={{height: '50px', width: '50px'}} className="img-logo"/>
         </div>
     );
 }

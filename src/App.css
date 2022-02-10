@@ -31,18 +31,16 @@ h2{
   outline: 0;
   background: transparent;
   border-bottom: 2px solid cornflowerblue;
+  width:100%;
 }
 
-.mobile{
-  width: 400px;
-  left:40%;
-}
 
 .img-logo{
-
-  position: absolute;
-  bottom:10px;
-  margin-left:48%;
+  position: fixed;
+  left: 50%;
+  bottom: -20px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
   z-index: -10;
 
 }
@@ -73,6 +71,7 @@ h2{
 }
 
 .large-input{
-  width: 280px;
+  width: 80vw;
+  max-width: 280px;
   border-radius: .5em;
 }
