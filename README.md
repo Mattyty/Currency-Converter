@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+# currency-conversion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Currency converter
 
-## Available Scripts
+##Title:## 
+CO-OP Currency Converter
 
-In the project directory, you can run:
+##Description:## 
+This is a small application which aims to convert the users chosen currencies. Both The rates and the currencies should be called from seperate API's, however the rates API proved to be a problem due to a CORS (Cross Origin) error. To work around this the data from the rates api has been hardcoded into the application 'as is', and I have mapped over it as I would have, had I consumed the data through an API (apologies, this is somthing I will work on in my own time to rectify). I would have called this API in a similar way to the Country API, via redux. I also had some difficulty in implementing the bonus features of the flags, and the search option in the drop down box. Again, thi is something I hope to achieve in the near future, if only for my own satisfaction and learnings.
 
-### `npm start`
+This is a React project which also uses Redux to pass data.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+##How to run:##
+Open the project into your command line and type 'npm Install'. Once complete, type npm start to load up the project locally.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Once open in the browser (localhost:3000), the user can enter their chosen amount, and select which currencies they would like to convert 'from' and 'to', by using the drop down selection boxes.
 
-### `npm test`
+If a user enters an invalid amount (not a number), an error should appear on the right asking them to input in the correct format. Similarly, if a user attempts to convert without selecting 2 currencies, an error will appear.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Once the user has entered a valid amount and chosen 2 currencies, they can press the 'Convert' button and the conversion amount should appear at the top. A more detailed description will appear at the bottom, along with a countdown timer of 10 seconds. Once the timer runs out, the converted amount will disappear and return to zero. This simulates that conversion rates can change, and are only valid for a select amount of time before the api will need to be recalled and the figures possibly updated.
